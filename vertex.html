@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Sound Shader by Vertex Shader</title>
+    <style>
+        html, body {
+            overflow: hidden;
+            background-color: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        #slider-container {
+            display: flex;
+            flex-wrap: wrap; /* Allow sliders to wrap to the next line if needed */
+            justify-content: center; /* Center the sliders horizontally */
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .slider {
+            margin: 5px; /* Adjust the margin between sliders */
+            flex: 1 1 200px; /* Allow sliders to grow and shrink, set minimum width */
+            max-width: 200px; /* Set the maximum width for each slider */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+              color: #8f8;
+        }
+
+        .slider-description, .slider-value {
+            font-family: Arial, sans-serif;
+            font-size: 10px; /* Adjust the font size as needed */
+            color: #007bff; /* Change to your preferred text color */
+        }
+        .slider-description2, .slider-value2 {
+            font-family: Arial, sans-serif;
+            font-size: 10px; /* Adjust the font size as needed */
+            color: #8f8; /* Change to your preferred text color */
+        }
+        .slider-description3, .slider-value3 {
+            font-family: Arial, sans-serif;
+            font-size: 10px; /* Adjust the font size as needed */
+            color: red; /* Change to your preferred text color */
+        }
+        #vertexShaderText {
+            width: 80%; /* Set the width to 80% for better layout */
+            height: 300px;
+            color: #8f8; /* Text color */
+            background-color: #333; /* Background color */
+        }
+
+        #date {
+            margin-left: 20px;
+            display: inline;  /* Adjust the margin between button and date */
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            color: #007bff;
+        }
+
+        #startButton {
+            font-family: Arial, sans-serif;
+            background-color: #007bff; /* Change to your preferred color */
+            border-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button id="startButton">Restart</button>
+        <p id="date"></p>
+    </div>
+    <div class="container">
+        <textarea id="vertexShaderText" rows="10" cols="50" spellcheck="false">
+
+void main(void) {
+float time = u_blockOffset + float(gl_VertexID) / u_sampleRate;
+time += u_time;
+o_sound = vec2(sin(time*800.))*u_sv;
+}
+        </textarea>
+        <div id="slider-container">
+            <div class="slider">
+                <span id="slider1-description" class="slider-description">slider1</span>
+                <span id="slider1-value" class="slider-value"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="slider1">
+            </div>
+            <div class="slider">
+                <span id="slider2-description" class="slider-description">slider2</span>
+                <span id="slider2-value" class="slider-value"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="slider2">
+            </div>
+            <div class="slider">
+                <span id="slider3-description" class="slider-description">slider3</span>
+                <span id="slider3-value" class="slider-value"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="slider3">
+            </div>
+            <div class="slider">
+                <span id="slider4-description" class="slider-description">slider4</span>
+                <span id="slider4-value" class="slider-value"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="slider4">
+            </div>
+            <div class="slider">
+                <span id="slider5-description" class="slider-description">slider5</span>
+                <span id="slider5-value" class="slider-value"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="slider5">
+            </div>
+            <div class="slider">
+                <span id="slider6-description" class="slider-description">slider6</span>
+                <span id="slider6-value" class="slider-value"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="slider6">
+            </div>
+            <div class="slider">
+                <span id="slider7-description" class="slider-description">slider7</span>
+                <span id="slider7-value" class="slider-value"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="slider7">
+            </div>
+            <div class="slider">
+                <span id="slider8-description" class="slider-description2">slider8</span>
+                <span id="slider8-value" class="slider-value2"></span>
+                <input type="range" min="0" max="4096" step="1" value="64" id="slider8">
+            </div>
+            <div class="slider">
+                <span id="slider9-description" class="slider-description2">slider9</span>
+                <span id="slider9-value" class="slider-value2"></span>
+                <input type="range" min="0.01" max="1" step="0.01" value="0.09" id="slider9">
+            </div>
+            <div class="slider">
+                <span id="slider10-description" class="slider-description2">slider10</span>
+                <span id="slider10-value" class="slider-value2"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="slider10">
+            </div>
+            <div class="slider">
+                <span id="slider11-description" class="slider-description3">potar1</span>
+                <span id="slider11-value" class="slider-value3"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="potar1">
+            </div>
+            <div class="slider">
+                <span id="slider12-description" class="slider-description3">potar2</span>
+                <span id="slider12-value" class="slider-value3"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="potar2">
+            </div>
+            <div class="slider">
+                <span id="slider13-description" class="slider-description3">potar3</span>
+                <span id="slider13-value" class="slider-value3"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="potar3">
+            </div>
+            <div class="slider">
+                <span id="slider14-description" class="slider-description3">potar4</span>
+                <span id="slider14-value" class="slider-value3"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="potar4">
+            </div>
+            <div class="slider">
+                <span id="slider15-description" class="slider-description3">potar5</span>
+                <span id="slider15-value" class="slider-value3"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="potar5">
+            </div>
+            <div class="slider">
+                <span id="slider16-description" class="slider-description3">potar6</span>
+                <span id="slider16-value" class="slider-value3"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="potar6">
+            </div>
+            <div class="slider">
+                <span id="slider17-description" class="slider-description3">potar7</span>
+                <span id="slider17-value" class="slider-value3"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="potar7">
+            </div>
+            <div class="slider">
+                <span id="slider18-description" class="slider-description3">potar8</span>
+                <span id="slider18-value" class="slider-value3"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="potar8">
+            </div>
+            <div class="slider">
+                <span id="slider19-description" class="slider-description3">potar9</span>
+                <span id="slider19-value" class="slider-value3"></span>
+                <input type="range" min="0" max="1" step="0.001" value="0.0" id="potar9">
+            </div>
+        </div>
+    </div>
+    <script src="./js/vertex.js" defer></script>
+    <script>
+        function updateSliderValue(sliderId, value) {
+            switch (sliderId) {
+                case 'slider1':
+                    document.getElementById("slider1-value").textContent = value.toFixed(3);
+                    break;
+                case 'slider2':
+                    document.getElementById("slider2-value").textContent = value.toFixed(3);
+                    break;
+                case 'slider3':
+                    document.getElementById("slider3-value").textContent = value.toFixed(3);
+                    break;
+                case 'slider4':
+                    document.getElementById("slider4-value").textContent = value.toFixed(3);
+                    break;
+                case 'slider5':
+                    document.getElementById("slider5-value").textContent = value.toFixed(3);
+                    break;
+                case 'slider6':
+                    document.getElementById("slider6-value").textContent = value.toFixed(3);
+                    break;
+                case 'slider7':
+                    document.getElementById("slider7-value").textContent = value.toFixed(3);
+                    break;
+                case 'slider8':
+                    document.getElementById("slider8-value").textContent = value.toFixed(0);
+                    break;
+                case 'slider9':
+                    document.getElementById("slider9-value").textContent = value.toFixed(2);
+                    break;
+                    case 'slider10':
+                        document.getElementById("slider10-value").textContent = value.toFixed(3);
+                        break;
+                        case 'potar1':
+                            document.getElementById("slider11-value").textContent = value.toFixed(3);
+                            break;
+                        case 'potar2':
+                            document.getElementById("slider12-value").textContent = value.toFixed(3);
+                            break;
+                        case 'potar3':
+                            document.getElementById("slider13-value").textContent = value.toFixed(3);
+                            break;
+                        case 'potar4':
+                            document.getElementById("slider14-value").textContent = value.toFixed(3);
+                            break;
+                        case 'potar5':
+                            document.getElementById("slider15-value").textContent = value.toFixed(3);
+                            break;
+                        case 'potar6':
+                            document.getElementById("slider16-value").textContent = value.toFixed(3);
+                            break;
+                        case 'potar7':
+                            document.getElementById("slider17-value").textContent = value.toFixed(3);
+                            break;
+                        case 'potar8':
+                            document.getElementById("slider18-value").textContent = value.toFixed(3);
+                            break;
+                        case 'potar9':
+                            document.getElementById("slider19-value").textContent = value.toFixed(3);
+                            break;
+                default:
+                    break;
+            }
+        }
+
+        function attachSliderListeners(sliderId) {
+            let sliderUsed = false;
+            const slider = document.getElementById(sliderId);
+
+            slider.addEventListener('input', (event) => {
+                sliderUsed = true;
+                const value = event.target.valueAsNumber;
+                // Call a function in script.js with the value as a parameter
+                gene(value, sliderId);
+                updateSliderValue(sliderId, value);
+            });
+
+
+        }
+
+        attachSliderListeners('slider1');
+        attachSliderListeners('slider2');
+        attachSliderListeners('slider3');
+        attachSliderListeners('slider4');
+        attachSliderListeners('slider5');
+        attachSliderListeners('slider6');
+        attachSliderListeners('slider7');
+        attachSliderListeners('slider8');
+        attachSliderListeners('slider9');
+        attachSliderListeners('slider10');
+        attachSliderListeners('potar1');
+        attachSliderListeners('potar2');
+        attachSliderListeners('potar3');
+        attachSliderListeners('potar4');
+        attachSliderListeners('potar5');
+        attachSliderListeners('potar6');
+        attachSliderListeners('potar7');
+        attachSliderListeners('potar8');
+        attachSliderListeners('potar9');
+        // Web MIDI API setup
+        function connectMIDI() {
+            if (navigator.requestMIDIAccess) {
+                navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
+            } else {
+                console.log('Web MIDI API is not supported in this browser.');
+            }
+        }
+
+        function onMIDISuccess(midiAccess) {
+            console.log('MIDI Connected');
+            for (let input of midiAccess.inputs.values()) {
+                input.onmidimessage = getMIDIMessage;
+            }
+        }
+
+        function onMIDIFailure() {
+            console.log('Could not access your MIDI devices.');
+        }
+
+        function getMIDIMessage(midiMessage) {
+            const [command, note, velocity] = midiMessage.data;
+            if (command === 176) { // MIDI CC message
+                let sliderId;
+                let value = velocity / 127;
+                switch (note) {
+                    case 3: // Adjust to your desired MIDI CC number
+                        sliderId = 'slider1';
+                        value = value;
+                        break;
+                    case 4:
+                        sliderId = 'slider2';
+                        value = value;
+                        break;
+                    case 5:
+                        sliderId = 'slider3';
+                        value = value;
+                        break;
+                    case 6:
+                        sliderId = 'slider4';
+                        value = value;
+                        break;
+                    case 7:
+                        sliderId = 'slider5';
+                        value = value;
+                        break;
+                    case 8:
+                        sliderId = 'slider6';
+                        value = value;
+                        break;
+                    case 12:
+                        sliderId = 'slider7';
+                        value = value;
+                        break;
+                    case 10:
+                        sliderId = 'slider8';
+                        value = Math.max(Math.pow(2,Math.round(value*12 )+1),8);
+                        break;
+                    case 11:
+                        sliderId = 'slider9';
+                        value = Math.max(value,0.01);
+                        break;
+                        case 9:
+                            sliderId = 'slider10';
+                            value = value;
+                            break;
+
+                            case 14: // Adjust to your desired MIDI CC number
+                                sliderId = 'potar1';
+                                value = value;
+                                break;
+                            case 15:
+                                sliderId = 'potar2';
+                                value = value;
+                                break;
+                            case 16:
+                                sliderId = 'potar3';
+                                value = value;
+                                break;
+                            case 17:
+                                sliderId = 'potar4';
+                                value = value;
+                                break;
+                            case 18:
+                                sliderId = 'potar5';
+                                value = value;
+                                break;
+                            case 19:
+                                sliderId = 'potar6';
+                                value = value;
+                                break;
+                            case 20:
+                                sliderId = 'potar7';
+                                value = value;
+                                break;
+                            case 21:
+                                sliderId = 'potar8';
+                                value = value;
+                                break;
+                            case 22:
+                                sliderId = 'potar9';
+                                value = value;
+                                break;
+
+                    default:
+                        break;
+                }
+                if (sliderId) {
+                    document.getElementById(sliderId).value = value;
+                    updateSliderValue(sliderId, value);
+                    gene(value, sliderId);
+                }
+            }
+        }
+
+        // Start MIDI connection
+        connectMIDI();
+    </script>
+</body>
+</html>
