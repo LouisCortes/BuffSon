@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Sound Shader by Vertex Shader</title>
+    <title>BuffSon</title>
     <style>
         html, body {
             overflow: hidden;
@@ -71,7 +71,7 @@
             color: #007bff;
         }
 
-        #startButton {
+        .button {
             font-family: Arial, sans-serif;
             background-color: #007bff; /* Change to your preferred color */
             border-color: #007bff;
@@ -80,8 +80,11 @@
 </head>
 <body>
     <div>
-        <button id="startButton">Restart</button>
+        <button id="startButton" class="button">Restart</button>
         <p id="date"></p>
+        <button id="draft" class="button">Draft</button>
+        <button id="buff1" class="button">SetBuff1</button>
+
     </div>
     <div class="container">
         <textarea id="vertexShaderText" rows="10" cols="50" spellcheck="false">

@@ -221,7 +221,8 @@ gl.uniform1f(uniforms['u_time'], tiValue);
 
 const startButton = document.getElementById('startButton');
 const date = document.getElementById('date');
-
+const draft = document.getElementById('draft');
+const buff1 = document.getElementById('buff1');
 startButton.addEventListener('click', () => {
   tiValue2 = performance.now() / 1000;
 });
@@ -291,124 +292,48 @@ setInterval(compileAndPlayAudio1, s9 * 1000);
 setTimeout(compileAndPlayAudio2, s9 * 500);
 setInterval(compileAndPlayAudio2,s9 * 1000);
 
-/*
-  let s1 = 0.;
-  let s2 = 0.;
-  let s3 = 0.;
-  let s4 = 0.;
-  let s5 = 0.;
-  let tiValue = 0.;
-    let tiValue2 = 0.;
-    const vertexShaderTextarea = document.getElementById('vertexShaderText');
-let shaderCode = vertexShaderTextarea.value;
-
-  function gene(value, sliderId) {
-    switch (sliderId) {
-      case 'slider1':
-        document.getElementById("slider1-value").textContent = value.toFixed(2);
-        s1 = value;
-        break;
-      case 'slider2':
-      document.getElementById("slider2-value").textContent = value.toFixed(2);
-        s2 = value;
-        break;
-      case 'slider3':
-      document.getElementById("slider3-value").textContent = value.toFixed(2);
-        s3 = value;
-        break;
-        case 'slider4':
-        document.getElementById("slider4-value").textContent = value.toFixed(2);
-          s4 = value;
-          break;
-        case 'slider5':
-        document.getElementById("slider5-value").textContent = value.toFixed(2);
-          s5 = value;
-          break;
-
-      default:
-        break;
-    }
-  }
-  function gene2 (value2){
-    p1 = value2;
-  }
-let datev;
-  function createShader(gl, source, type) {
-    const shader = gl.createShader(type);
-    gl.shaderSource(shader, source);
-    gl.compileShader(shader);
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      throw new Error(gl.getShaderInfoLog(shader) + source);
-    }
-    return shader;
-  }
-
-  function createTransformFeedbackProgram(gl, vertexShaderSource, fragmentShaderSource, varyings) {
-    const program = gl.createProgram();
-    gl.attachShader(program, createShader(gl, vertexShaderSource, gl.VERTEX_SHADER));
-    gl.attachShader(program, createShader(gl, fragmentShaderSource, gl.FRAGMENT_SHADER));
-    gl.transformFeedbackVaryings(program, varyings, gl.SEPARATE_ATTRIBS);
-    gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      throw new Error(gl.getProgramInfoLog(program));
-    }
-    return program;
-  }
-
-  function getUniformLocations(gl, program, keys) {
-    const locations = {};
-    keys.forEach(key => {
-        locations[key] = gl.getUniformLocation(program, key);
-    });
-    return locations;
-  }
-
-  function createVbo(gl, array, usage) {
-    const vbo = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
-    gl.bufferData(gl.ARRAY_BUFFER, array, usage !== undefined ? usage : gl.STATIC_DRAW);
-    gl.bindBuffer(gl.ARRAY_BUFFER, null);
-    return vbo;
-  }
 
 
-
-
-  const FRAGMENT_SHADER =
-#version 300 es
-void main(void) {}
-;
-
-  function createAudio() {
-    const DURATION = 180; // seconds
-    const SAMPLES = 65536;
-
+  function createAudioBuff() {
+    const DURATION = 60; // seconds
+    //const SAMPLES = 65536;
+    const SAMPLES  = 21845;
     const audioCtx = new AudioContext();
     const audioBuffer = audioCtx.createBuffer(2, audioCtx.sampleRate * DURATION, audioCtx.sampleRate);
 
     const canvas = document.createElement('canvas');
     const gl = canvas.getContext('webgl2');
-
     const program = createTransformFeedbackProgram(gl, shaderCode, FRAGMENT_SHADER, ['o_sound']);
-    const uniforms = getUniformLocations(gl, program, ['u_sampleRate', 'u_blockOffset','u_date','u_s1',
-    'u_s2','u_s3','u_s4','u_s5','u_time']);
-
+    const uniforms = getUniformLocations(gl, program, ['u_sampleRate', 'u_blockOffset', 'u_date', 'u_s1', 'u_s2', 'u_s3', 'u_s4', 'u_s5',
+      'u_s6', 'u_s7', 'u_sv','u_time','u_p1','u_p2','u_p3','u_p4','u_p5','u_p6','u_p7','u_p8','u_p9']);
     const array = new Float32Array(2 * SAMPLES);
     const vbo = createVbo(gl, array, gl.DYNAMIC_COPY);
     const transformFeedback = gl.createTransformFeedback();
-
     const numBlocks = (audioCtx.sampleRate * DURATION) / SAMPLES;
     const outputL = audioBuffer.getChannelData(0);
     const outputR = audioBuffer.getChannelData(1);
-
     gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, transformFeedback);
     gl.enable(gl.RASTERIZER_DISCARD);
     gl.useProgram(program);
     gl.uniform1f(uniforms['u_date'], datev);
-    gl.uniform1f(uniforms['u_s1'], s1);gl.uniform1f(uniforms['u_s2'], s2);gl.uniform1f(uniforms['u_s3'], s3);
-    gl.uniform1f(uniforms['u_s4'], s4);gl.uniform1f(uniforms['u_s5'], s5);
-    gl.uniform1f(uniforms['u_time'],tiValue);
-    // Load and bind the texture
+    gl.uniform1f(uniforms['u_s1'], s1);
+    gl.uniform1f(uniforms['u_s2'], s2);
+    gl.uniform1f(uniforms['u_s3'], s3);
+    gl.uniform1f(uniforms['u_s4'], s4);
+    gl.uniform1f(uniforms['u_s5'], s5);
+    gl.uniform1f(uniforms['u_s6'], s6);
+    gl.uniform1f(uniforms['u_s7'], s7);
+    gl.uniform1f(uniforms['u_sv'], s10);
+    gl.uniform1f(uniforms['u_p1'], p1);
+    gl.uniform1f(uniforms['u_p2'], p2);
+    gl.uniform1f(uniforms['u_p3'], p3);
+    gl.uniform1f(uniforms['u_p4'], p4);
+    gl.uniform1f(uniforms['u_p5'], p5);
+    gl.uniform1f(uniforms['u_p6'], p6);
+    gl.uniform1f(uniforms['u_p7'], p7);
+    gl.uniform1f(uniforms['u_p8'], p8);
+    gl.uniform1f(uniforms['u_p9'], p9);
+  gl.uniform1f(uniforms['u_time'], tiValue);
     texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
     const textureImage = new Image();
@@ -418,8 +343,6 @@ void main(void) {}
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-
-
     };
     gl.uniform1f(uniforms['u_sampleRate'], audioCtx.sampleRate);
 
@@ -444,28 +367,20 @@ void main(void) {}
     return node;
   }
 
-  const startButton = document.getElementById('startButton');
-  //const elapsedTime = document.getElementById('elapsedTime');
-  const date = document.getElementById('date');
+let audioNodeBuff = null;
+draft.addEventListener('click', () => {
 
-  startButton.addEventListener('click', _ => {
-    tiValue2 = performance.now() / 1000;
-});
-let audioCreated = false;
-let audioNode = null;
-addEventListener('click', async () => {
-   if (event.target !== vertexShaderTextarea) {
-   shaderCode = vertexShaderTextarea.value;
-        if (audioNode) {
+     let shaderCode = "#version 300 es\nout vec2 o_sound;\nuniform float u_blockOffset;\nuniform float u_s1;\nuniform float u_s2;\nuniform float u_s3;\nuniform float u_s4;\nuniform float u_s5;\nuniform float u_s6;\nuniform float u_s7;\nuniform float u_p1;\nuniform float u_p2;\nuniform float u_p3;\nuniform float u_p4;\nuniform float u_p5;\nuniform float u_p6;\nuniform float u_p7;\nuniform float u_p8;\nuniform float u_p9;\nuniform float u_time;\nuniform float u_sv;\nuniform float u_sampleRate;\nuniform float u_date;" + vertexShaderTextarea.value;
+        if (audioNodeBuff) {
             // If audio node exists, stop and destroy it
-            audioNode.stop();
-            audioNode.disconnect();
+            audioNodeBuff.stop();
+            audioNodeBuff.disconnect();
         }
         const tv1 = Date.now()*0.0000001;
         datev = (tv1-Math.floor(tv1))*100000;
         tiValue = performance.now() / 1000-tiValue2;
         date.textContent =tiValue;
-        audioNode = createAudio(); // Create new audio node
-        audioNode.start(); // Start the audio with the calculated offset
-      }
-});*/
+        audioNodeBuff = createAudioBuff(); // Create new audio node
+        audioNodeBuff.start(); // Start the audio with the calculated offset
+
+});
